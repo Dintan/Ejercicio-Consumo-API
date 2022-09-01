@@ -1,6 +1,6 @@
 //test data
 
-const fakeData = [
+/* const fakeData = [
     {
         quote_id: 1,
         quote: "Ex laborum deserunt sint adipisicing commodo.",
@@ -30,29 +30,12 @@ const fakeData = [
         quote: "Ullamco voluptate elit excepteur duis pariatur aliqua dolore pariatur adipisicing cillum et non aliqua nostrud.",
         author: "Nombre de author/a 5"
     },
-]
+] */
 
-//obtain data
-
-function getData(displayFunction ) {
-    // send req to API
-
-    const request = fetch("https://breakingbadapi.com/api/quotes")
-
-    request.then( function(response){
-        
-        response.json().then(function( data ){
-
-            displayFunction( data )
-            displayQuote( data )
-        })
-    })
-
-}
 
 //format data
 
-function formatQuote( quote ) {
+function formatQuote(quote) {
     const formattedQuote = {
         text: quote.quote,
         author: quote.author,
@@ -61,47 +44,56 @@ function formatQuote( quote ) {
 
     return formattedQuote
 
-} 
+}
 
 //display data
 
-function createQuote(quote){
+function createQuote(quote) {
     const newQuote = document.createElement("blockquote")
     const text = document.createElement("p")
     const author = document.createElement("p")
-    
+
     text.classList.add("text")
     author.classList.add("author")
 
     text.innerHTML = quote.text
     author.innerHTML = quote.author
 
-    newQuote.append( text )
-    newQuote.append( author )
+    newQuote.append(text)
+    newQuote.append(author)
 
-    newQuote.setAttribute( "data-id", quote.id )
+    newQuote.setAttribute("data-id", quote.id)
 
     return newQuote
 }
 
-function displayQuote(quote){
+function setupInteraction(element) {
+    element.addEventListener("click", function (event) {
+
+        const el = event.target
+        console.log(el.getAttribute("data-id"))
+    })
+}
+
+function displayQuote(quote) {
     const container = document.querySelector("#information")
 
-    const newQuote = createQuote( quote )
+    const newQuote = createQuote(quote)
 
-    container.append( newQuote)
+    setupInteraction(newQuote)
+    container.append(newQuote)
 
 }
 
-function displayQuotes( quotes ) {
-    
-    const formattedQuotes = quotes.map( formatQuote)
+function displayQuotes(quotes) {
 
-    formattedQuotes.forEach( displayQuote )
+    const formattedQuotes = quotes.map(formatQuote)
+
+    formattedQuotes.forEach(displayQuote)
 }
 
 function getAndDisplayQuotes() {
-    getData( displayQuotes )
+    getData("quotes", displayQuotes)
 
 
 }
