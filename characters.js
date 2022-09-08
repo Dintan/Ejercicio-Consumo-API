@@ -1,3 +1,7 @@
+let pageNum = 0;
+
+let windowDebounce  
+
 function formatCharacter(character) {
     const formattedCharacter = {
         image: character.img,
@@ -62,10 +66,49 @@ function displayCharacters(characters) {
 
 
 
-function getAndDisplayCharacters() {
-    getData("characters", displayCharacters)
+function loadMore() {
+    getData({
+        endpoint: "characters",
+        pageNum: pageNum,
+        elementsPerPage: 3,
+        displayFunction: displayCharacters
+    })
+    pageNum++
     
+    console.log("load more", pageNum)
 }
 
-getAndDisplayCharacters();
-console.log( "Characters")
+function setupPagination() {
+    const btn = document.querySelector("#nextpage")
+    btn.addEventListener("click", loadMore)
+
+}
+
+
+function windowScroll() {
+    if (!windowDebounce) {
+    
+        windowDebounce = setTimeout(function () {
+        
+            const container = document.querySelector("#characters")
+            if (window.scrollY + container.clientHeight > window.innerHeight - 5) {
+    
+                loadMore()
+    
+            }
+      
+            windowDebounce = null
+        }, 1000)
+
+    }
+}
+
+function setupInfiniteScroll() {
+    window.addEventListener("scroll", windowScroll)
+ 
+}
+
+setupInfiniteScroll()
+setupPagination()
+loadMore()
+console.log("Characters")

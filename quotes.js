@@ -93,7 +93,12 @@ function displayQuotes(quotes) {
 }
 
 function getAndDisplayQuotes() {
-    getData("quotes", displayQuotes)
+    getData({
+        endpoint: "quotes",
+        pageNum: 0,
+        elementsPerPage: 5,
+        displayFunction: displayQuotes
+    })
 
 
 }
