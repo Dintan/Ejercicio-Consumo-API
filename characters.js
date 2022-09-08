@@ -1,5 +1,5 @@
 let pageNum = 0;
-
+let elementsPerPage = 6;
 let windowDebounce  
 
 function formatCharacter(character) {
@@ -56,7 +56,7 @@ function displayCharacter(character) {
 }
 
 function displayCharacters(characters) {
-    console.log("Characters")
+    //console.log("Characters")
     
     const formattedCharacters = characters.map(formatCharacter)
 
@@ -69,13 +69,13 @@ function displayCharacters(characters) {
 function loadMore() {
     getData({
         endpoint: "characters",
-        pageNum: pageNum,
-        elementsPerPage: 3,
+        currentPage: pageNum,
+        pageSize: elementsPerPage,
         displayFunction: displayCharacters
     })
     pageNum++
     
-    console.log("load more", pageNum)
+    //console.log("load more", pageNum)
 }
 
 function setupPagination() {

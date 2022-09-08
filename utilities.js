@@ -1,42 +1,26 @@
 const apiUrl = "https://breakingbadapi.com/api/"
 //obtain data
 
-function getData({
-    endpoint,
-    displayFunction,
-    pageNum,
-    elementsPerPage
+function getData({endpoint, displayFunction, currentPage, pageSize}) {
 
-}) {
+    let url = apiUrl + endpoint
+    if (pageSize) {
+        const offset = pageSize * currentPage
+        const queryString = `?limit=${pageSize}&offset=${offset}`
 
-    if (!elementsPerPage) {
-        elementsPerPage = 5
+        url += queryString
     }
-    if (!pageNum) {
-        pageNum = 0
-    }
-    // send req to API
-    //let queryString = "?"
-    //queryString += "limit=" + elementsPerPage
-    //queryString += "&"
-    //queryString += "offset=" + (
-    //    elementsPerPage
-    //    *
-    //    pageNum
-    //)
-    const offset = elementsPerPage * pageNum
-    const queryString = `?limit=${elementsPerPage}&offset=${offset}`
-    
-    const request = fetch(
-        apiUrl + endpoint + queryString
-    )
+
+    const request = fetch(url)
 
     request.then(function (response) {
 
-        response.json().then(function (data) {
+        response
+            .json()
+            .then(function (data) {
 
-            displayFunction(data)
-        })
+                displayFunction(data)
+            })
     })
 
 }
