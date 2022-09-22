@@ -58,3 +58,15 @@ blockquote * {
     text-align: center;
     padding: 1rem;
 }
+
+.character-detail{
+    width: 100%;
+    max-width: 60rem;
+    margin: 0 auto;
+}
+.character-detail .image {
+    height: 20rem;
+}
+.character-detail .image img {
+    height: 100%;
+}
