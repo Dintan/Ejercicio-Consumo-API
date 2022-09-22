@@ -1,6 +1,6 @@
 let pageNum = 0;
 let elementsPerPage = 6;
-let windowDebounce  
+let windowDebounce
 
 function formatCharacter(character) {
     const formattedCharacter = {
@@ -15,7 +15,7 @@ function formatCharacter(character) {
 }
 
 function createCharacter(character) {
-    
+
     const model = document.querySelector(".character.model")
     const newCharacter = model.cloneNode(true)
     newCharacter.classList.remove("model")
@@ -33,15 +33,25 @@ function createCharacter(character) {
     image.setAttribute("alt", character.name)
 
 
-    
+
     return newCharacter
 }
 
+function openCharacter(id) {
+    const url = new URL(window.location.href)
+    console.log("protocol", window.location.protocol);
+    console.log("url", url.hostname);
+
+    const newUrl = `${url.protocol}//${url.hostname}:${url.port}/character.html?id=${id}`
+    console.log("newUrl", newUrl);
+
+    window.location.href = newUrl
+}
 function setupInteraction(element) {
     element.addEventListener("click", function (event) {
 
         const el = event.target
-        console.log(el.getAttribute("data-id"))
+        openCharacter(el.getAttribute("data-id"))
     })
 }
 
@@ -57,7 +67,7 @@ function displayCharacter(character) {
 
 function displayCharacters(characters) {
     //console.log("Characters")
-    
+
     const formattedCharacters = characters.map(formatCharacter)
 
     formattedCharacters.forEach(displayCharacter)
@@ -74,7 +84,7 @@ function loadMore() {
         displayFunction: displayCharacters
     })
     pageNum++
-    
+
     //console.log("load more", pageNum)
 }
 
@@ -87,16 +97,16 @@ function setupPagination() {
 
 function windowScroll() {
     if (!windowDebounce) {
-    
+
         windowDebounce = setTimeout(function () {
-        
+
             const container = document.querySelector("#characters")
             if (window.scrollY + container.clientHeight > window.innerHeight - 5) {
-    
+
                 loadMore()
-    
+
             }
-      
+
             windowDebounce = null
         }, 1000)
 
@@ -105,7 +115,7 @@ function windowScroll() {
 
 function setupInfiniteScroll() {
     window.addEventListener("scroll", windowScroll)
- 
+
 }
 
 setupInfiniteScroll()
